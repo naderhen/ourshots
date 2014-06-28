@@ -1,9 +1,9 @@
 source 'https://rubygems.org'
 
 gem 'ruby_motion_query'
-
+gem 'motion-pixatefreestyle'
 # Useful tools that most people use
-#gem 'bubble-wrap' 
+gem 'bubble-wrap' 
 
 # If you use a cocoapod (find them here https://www.cocoacontrols.com)
 #gem 'motion-cocoapods' 

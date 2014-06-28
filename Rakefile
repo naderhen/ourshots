@@ -4,6 +4,8 @@ require 'motion/project/template/ios'
 require 'bundler'
 Bundler.require
 
+require 'rubygems'
+require 'motion-pixatefreestyle'
 # require 'bubble-wrap'
 
 Motion::Project::App.setup do |app|
@@ -11,7 +13,7 @@ Motion::Project::App.setup do |app|
   app.name = 'OurShots'
   app.identifier = 'com.naderhendawi.ourshots'
   
-  app.provisioning_profile = '/Users/nhendawi/Dropbox/ios_certs/OurShots_Development_Profile.mobileprovision'
+  app.provisioning_profile = '/Users/nader/Dropbox/ios_certs/OurShots_Development_Profile.mobileprovision'
   app.entitlements['keychain-access-groups'] = [
     app.seed_id + '.' + app.identifier
   ]
@@ -23,6 +25,9 @@ Motion::Project::App.setup do |app|
 
   app.sdk_version = '7.1'
   app.deployment_target = '7.0'
+
+  app.pixatefreestyle.framework = 'vendor/PixateFreestyle.framework'
+
   # Or for iOS 6
   #app.sdk_version = '6.1'
   #app.deployment_target = '6.0'
@@ -52,3 +57,6 @@ Motion::Project::App.setup do |app|
   # end
  
 end
+
+task :"build:simulator" => :"pixatefreestyle:sass"
+task :"build:device" => :"pixatefreestyle:sass"

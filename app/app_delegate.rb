@@ -2,10 +2,15 @@ class AppDelegate
   attr_reader :window
 
   def application(application, didFinishLaunchingWithOptions:launchOptions)
+    PixateFreestyle.initializePixateFreestyle
     UIApplication.sharedApplication.registerForRemoteNotificationTypes(UIRemoteNotificationTypeAlert | UIRemoteNotificationTypeBadge | UIRemoteNotificationTypeSound)
     @window = UIWindow.alloc.initWithFrame(UIScreen.mainScreen.bounds)
 
     UIApplication.sharedApplication.applicationIconBadgeNumber = 0
+
+    @window.styleMode = PXStylingNormal
+    setup_pixate_monitor if Device.simulator?
+    PixateFreestyle.updateStylesForAllViews
 
     main_controller = MainController.new
     @window.rootViewController = UINavigationController.alloc.initWithRootViewController(main_controller)
@@ -31,5 +36,10 @@ class AppDelegate
     alert.title = title
     alert.message = message
     alert.show
+  end
+
+  def setup_pixate_monitor
+    PixateFreestyle.styleSheetFromFilePath('/Users/nader/dev/ourshots/resources/default.css', withOrigin:PXStylesheetOriginApplication)
+    PixateFreestyle.currentApplicationStylesheet.monitorChanges = true
   end
 end
