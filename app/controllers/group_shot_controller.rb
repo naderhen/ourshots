@@ -1,14 +1,18 @@
 class GroupShotController < UIViewController
+  attr_accessor :group
+  attr_accessor :group_shot
 
   def viewDidLoad
     super
+
+    self.title = "GroupShotController"
 
     rmq.stylesheet = GroupShotControllerStylesheet
     rmq(self.view).apply_style :root_view
 
     # Create your views here
     @image_view = rmq(self.view).append(UIImageView, :image_view).get
-    
+
     @take_picture_button = rmq(self.view).append(UIButton, :take_picture_button).get
     rmq(@take_picture_button).on(:tap) do |sender, event|
       take_picture
@@ -61,6 +65,27 @@ class GroupShotController < UIViewController
 
     @image_view.image = image
     @image_view.contentMode = UIViewContentModeScaleAspectFill
+
+    image_data = UIImagePNGRepresentation(image)
+
+    client = AFMotion::SessionClient.build(API_URL) do
+      session_configuration :default
+
+      header "Accept", "application/json"
+
+      response_serializer :json
+    end
+
+    NSLog("group id %@", @group["id"])
+    NSLog("group shot id %@", @group_shot["id"])
+
+    client.multipart_post(API_URL + "/groups/#{@group["id"]}/group_shots/#{@group_shot["id"]}/selfies") do |result, form_data|
+      if form_data
+        form_data.appendPartWithFileData(image_data, name: "image", fileName:"image.png", mimeType: "image/png")
+      elsif result.success?
+        NSLog("SUCCESS!")
+      end
+    end
 
     dismissViewControllerAnimated(true, completion: nil)
   end

@@ -77,6 +77,12 @@ class GroupController < UICollectionViewController
   def collectionView(view, didSelectItemAtIndexPath: index_path)
     cell = view.cellForItemAtIndexPath(index_path)
     puts "Selected at section: #{index_path.section}, row: #{index_path.row}"
+  
+    group_shot_controller = GroupShotController.new
+    group_shot_controller.group = @group
+    group_shot_controller.group_shot = @group_shots[index_path.row]
+
+    self.navigationController.pushViewController(group_shot_controller, animated: true)
   end
 
 end
