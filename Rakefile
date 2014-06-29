@@ -6,6 +6,7 @@ Bundler.require
 
 require 'rubygems'
 require 'motion-pixatefreestyle'
+require 'motion-cocoapods'
 # require 'bubble-wrap'
 
 Motion::Project::App.setup do |app|
@@ -25,6 +26,10 @@ Motion::Project::App.setup do |app|
 
   app.sdk_version = '7.1'
   app.deployment_target = '7.0'
+
+  app.pods do
+    pod 'AFNetworking'
+  end
 
   app.pixatefreestyle.framework = 'vendor/PixateFreestyle.framework'
 

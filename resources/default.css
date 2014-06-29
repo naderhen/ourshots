@@ -121,6 +121,7 @@ tab-bar tab-bar-item:selected {
  * Buttons
  * --------------------------------
  */
+button,
 .button {
   border-radius: 3pt;
   color: white;
@@ -130,14 +131,17 @@ tab-bar tab-bar-item:selected {
   text-transform: uppercase;
   title-edge-top-inset: 1pt; }
 
+button:highlighted,
 .button:highlighted {
   background-color: #004f71;
   border-radius: 3pt; }
 
+button.large,
 .button.large {
   font-size: 22pt;
   title-edge-top-inset: 2pt; }
 
+button.small,
 .button.small {
   font-size: 12pt;
   title-edge-top-inset: 2pt; }

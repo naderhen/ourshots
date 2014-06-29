@@ -12,7 +12,7 @@ class AppDelegate
     setup_pixate_monitor if Device.simulator?
     PixateFreestyle.updateStylesForAllViews
 
-    main_controller = MainController.new
+    main_controller = CameraController.new
     @window.rootViewController = UINavigationController.alloc.initWithRootViewController(main_controller)
 
     @window.makeKeyAndVisible
@@ -21,9 +21,15 @@ class AppDelegate
 
   def application(application, didRegisterForRemoteNotificationsWithDeviceToken:deviceToken)
     clean_token = deviceToken.description.gsub(" ", "").gsub("<", "").gsub(">", "")
-    NSLog("TOKEN %@", clean_token)
+    NSLog("RECEIVED TOKEN %@ .  REGISTERING", clean_token)
     # 934d08a6307d54eb78ca8ad96a0c6baf57c2e51fc66e8504f48fc2b542986a67
     # show_alert("Push Notification Token", clean_token)
+
+    # AFMotion::JSON.post("http://192.168.1.4:3000/device_tokens", token: clean_token) do |result|
+    #   if result.success?
+    #     NSLog("SUCCESS!")
+    #   end
+    # end
   end
   
   def application(application, didReceiveRemoteNotification:userInfo)
