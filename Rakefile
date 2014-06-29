@@ -29,6 +29,7 @@ Motion::Project::App.setup do |app|
 
   app.pods do
     pod 'AFNetworking'
+    pod 'SSKeychain', '~> 1.2.0'
   end
 
   app.pixatefreestyle.framework = 'vendor/PixateFreestyle.framework'

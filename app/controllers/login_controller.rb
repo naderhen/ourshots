@@ -11,8 +11,8 @@ class LoginController < UIViewController
 
     rmq(@login_button).on(:tap) do |sender, event|
       AFMotion::JSON.post(API_URL + "/sessions", user: {email: "naderhen@gmail.com", password: "test1234"}) do |result|
-        if result.success?
-          ap result
+        if result.success? && result.object["data"]["auth_token"]
+          CredentialStore.new.set_secure_value(result.object["data"]["auth_token"], for_key: "auth_token")
         end
       end
     end
