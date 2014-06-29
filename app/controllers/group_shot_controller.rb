@@ -79,7 +79,7 @@ class GroupShotController < UIViewController
     NSLog("group id %@", @group["id"])
     NSLog("group shot id %@", @group_shot["id"])
 
-    client.multipart_post(API_URL + "/groups/#{@group["id"]}/group_shots/#{@group_shot["id"]}/selfies") do |result, form_data|
+    client.multipart_post(API_URL + "/groups/#{@group["id"]}/group_shots/#{@group_shot["id"]}/selfies", user_id: 1) do |result, form_data|
       if form_data
         form_data.appendPartWithFileData(image_data, name: "image", fileName:"image.png", mimeType: "image/png")
       elsif result.success?

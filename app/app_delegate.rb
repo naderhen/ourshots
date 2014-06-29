@@ -12,7 +12,7 @@ class AppDelegate
     setup_pixate_monitor if Device.simulator?
     PixateFreestyle.updateStylesForAllViews
 
-    main_controller = GroupsController.new
+    main_controller = LoginController.new
     @window.rootViewController = UINavigationController.alloc.initWithRootViewController(main_controller)
 
     @window.makeKeyAndVisible
