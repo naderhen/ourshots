@@ -12,8 +12,14 @@ class AppDelegate
     setup_pixate_monitor if Device.simulator?
     PixateFreestyle.updateStylesForAllViews
 
-    main_controller = LoginController.new
-    @window.rootViewController = UINavigationController.alloc.initWithRootViewController(main_controller)
+    # CredentialStore.sharedClient.set_secure_value(nil, for_key: "user_email") 
+
+    if CredentialStore.sharedClient.secure_value_for_key("user_token") && CredentialStore.sharedClient.secure_value_for_key("user_email")
+      home_controller = GroupsController.new
+    else
+      home_controller = LoginController.new
+    end
+    @window.rootViewController = UINavigationController.alloc.initWithRootViewController(home_controller)
 
     @window.makeKeyAndVisible
     true

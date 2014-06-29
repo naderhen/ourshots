@@ -68,18 +68,10 @@ class GroupShotController < UIViewController
 
     image_data = UIImagePNGRepresentation(image)
 
-    client = AFMotion::SessionClient.build(API_URL) do
-      session_configuration :default
-
-      header "Accept", "application/json"
-
-      response_serializer :json
-    end
-
     NSLog("group id %@", @group["id"])
     NSLog("group shot id %@", @group_shot["id"])
 
-    client.multipart_post(API_URL + "/groups/#{@group["id"]}/group_shots/#{@group_shot["id"]}/selfies", user_id: 1) do |result, form_data|
+    APIClient.sharedClient.multipart_post(API_URL + "/groups/#{@group["id"]}/group_shots/#{@group_shot["id"]}/selfies") do |result, form_data|
       if form_data
         form_data.appendPartWithFileData(image_data, name: "image", fileName:"image.png", mimeType: "image/png")
       elsif result.success?

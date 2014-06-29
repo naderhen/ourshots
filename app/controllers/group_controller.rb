@@ -37,7 +37,7 @@ class GroupController < UICollectionViewController
   end
 
   def fetch_group_shots
-    AFMotion::JSON.get(API_URL + "/groups/#{@group["id"]}.json") do |response|
+    APIClient.sharedClient.get(API_URL + "/groups/#{@group["id"]}.json") do |response|
       if response.success?
         @group_shots = response.object["group_shots"]
         @users = response.object["users"]

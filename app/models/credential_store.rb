@@ -1,5 +1,10 @@
 class CredentialStore
   SERVICE = 'OurShots'
+
+  def self.sharedClient
+    Dispatch.once { @instance ||= new }
+    @instance
+  end
   
   def set_secure_value(value, for_key: key)
     if value

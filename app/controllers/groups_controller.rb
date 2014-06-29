@@ -17,8 +17,8 @@ class GroupsController < UICollectionViewController
   def viewDidLoad
     super
 
-    self.title = "GroupsController"
-    
+    self.title = ""
+
     @groups = []
     fetch_groups
 
@@ -35,7 +35,7 @@ class GroupsController < UICollectionViewController
   end
 
   def fetch_groups
-    AFMotion::JSON.get(API_URL + "/groups.json") do |response|
+    APIClient.sharedClient.get(API_URL + "/groups.json") do |response|
       if response.success?
         @groups = response.object
         collectionView.reloadData
