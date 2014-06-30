@@ -7,14 +7,37 @@ class LoginController < UIViewController
     rmq(self.view).apply_style :root_view
 
     # Create your views here
-    @login_button = rmq(self.view).append(UIButton, :login_button).get
 
-    rmq(@login_button).on(:tap) do |sender, event|
-      email = "soltisl@gmail.com"
-      AFMotion::JSON.post(API_URL + "/sessions", user: {email: email, password: "test1234"}) do |result|
-        if result.success? && result.object["data"]["auth_token"]
+    self.navigationItem.rightBarButtonItem = UIBarButtonItem.alloc.initWithBarButtonSystemItem(UIBarButtonSystemItemRefresh,
+                                                                           target: self, action: :log_out)
+
+    @lindsay_login_button = rmq(self.view).append(UIButton, :lindsay_login_button).get
+
+    rmq(@lindsay_login_button).on(:tap) do |sender, event|
+      log_in('soltisl@gmail.com')
+    end
+
+    @nader_login_button = rmq(self.view).append(UIButton, :nader_login_button).get
+
+    rmq(@nader_login_button).on(:tap) do |sender, event|
+      log_in('naderhen@gmail.com')
+    end
+  end
+
+  def log_in(email)
+    AFMotion::JSON.delete(API_URL + "/sessions.json") do |logout_result|
+      ap "Logging out"
+      CredentialStore.sharedClient.set_secure_value(nil, for_key: "user_token")
+      CredentialStore.sharedClient.set_secure_value(nil, for_key: "user_email")
+
+      AFMotion::JSON.post(API_URL + "/sessions.json", user: {email: email, password: "test1234"}) do |result|
+        ap result
+        if result.error
+          ap result.error.localizedDescription
+        elsif result.success? && result.object["data"]["auth_token"]
           CredentialStore.sharedClient.set_secure_value(result.object["data"]["auth_token"], for_key: "user_token")
           CredentialStore.sharedClient.set_secure_value(email, for_key: "user_email")
+          self.navigationController.pushViewController(GroupsController.new, animated: true)
         end
       end
     end

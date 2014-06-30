@@ -11,8 +11,13 @@ class LoginControllerStylesheet < ApplicationStylesheet
     st.background_color = color.white
   end
 
-  def login_button(st)
-  	st.text = "Login"
+  def nader_login_button(st)
+  	st.text = "Login as Nader"
+  	st.frame = "b8:i9"
+  end
+
+  def lindsay_login_button(st)
+  	st.text = "Login as Lindsay"
   	st.frame = "b10:i11"
   end
 end
